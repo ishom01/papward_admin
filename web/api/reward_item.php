@@ -4,13 +4,19 @@
 
     $response = array();
 
-    if (isset($_POST['id'])) {
+    if (isset($_POST['id']) && isset($_POST['id_user'])) {
 
         //do something when right
         $categoryid = $_POST['id'];
+        $userid = $_POST['id_user'];
 
         $query = "SELECT * FROM reward_item WHERE reward_cat = '$categoryid'";
         $result = $connect->query($query);
+
+        $query1 = "SELECT * FROM user_pengguna WHERE id = '$userid'";
+        $result1 = $connect->query($query1);
+        $row1 = $result1->fetch_assoc();
+        $point = $row1['point'];
 
         if ($result->num_rows > 0) {
 
@@ -22,6 +28,7 @@
 
             $response['response'] = 200;
             $response['status'] = true;
+            $response['point'] = $point;
             $response['data'] = $object;
         }else {
             $response['response'] = 200;
